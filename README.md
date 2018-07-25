@@ -4,4 +4,6 @@
 1. Web前端黑客技术揭秘
 2. 白帽子讲Web安全
 3. Web渗透技术及实战案例解析
+4. [ 浏览器工作原理与XSS-HTML编码 ][1]
 
+[1]:	https://www.jianshu.com/p/c0dc4bbab8e8 "浏览器工作原理与XSS-HTML编码"
