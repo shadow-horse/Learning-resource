@@ -26,5 +26,26 @@
 5. Smali基本语法
 	1. .field private isFlag:z   定义变量  
 		.field button_login:Landroid/widget/Button;
-	2. 
-		6. 
+	2. .method  方法
+		.method protected onCreate(Landroid/os/Bundle;)V  
+	3. .parameter  方法参数
+		.param p1, "name"    # Ljava/lang/String;
+	4. .prologue  方法开始
+	5. .line 36   此方法位于36行
+	6. Invoke-super  调用父函数
+	7. Return-void  函数返回void
+	8. Move-result v0   上面函数执行的结果赋值给v0
+	9. .end method 函数结束
+	10. New-instance 创建实例
+	11. Input-object  对象赋值
+	12. Iget-object  调用对象
+	13. Invoke-static  调用静态函数
+	14. Invoke-virtual  调用函数
+		invoke-virtual {p1, v0}, Ljava/lang/String;-\>equals(Ljava/lang/Object;)Z  
+	15. Const-string  string赋值
+		const-string v0, "snow"
+6. smali的条件分支
+	1. If-eq vA,vB,:cond\_\*\* 如果vA和vB相等，则跳转至cond\_\*\*  
+	2. If-ne（不等于）、if-lt（小于）、if-ge（大于等于）、if-gt（大于）、if-le（小于等于）
+	3. If-eqz v0:cond\_\*\* 如果V0等于0，则跳转至cond
+	4. If-nez（不等于0）、if-ltz、if-gtz、if-gez、if-lez
