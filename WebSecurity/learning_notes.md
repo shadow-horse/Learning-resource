@@ -70,10 +70,28 @@
 	2. 不同的变量，不同的指令：iget、sget、iget-boolean、sget-boolean、iget-object、sget-object等；input、input-boolean、sput-boolean、iput-object、sput-object等；-object后缀的表示操作对象是对象类型，对boolean类的操作则使用-boolean。
 	3. Sget-object v0,Lcom/aaa;-\>ID:Ljava/lang/String; 获取com.aaa.ID的值放入V0
 	4. Iget-object v0,p0,Lcom/aaa;-\>view:Lcom/aaa/view; 此处多了一个参数p0，指的是this，array变量采用aget和aget-object
-	5. this.timer=null   
+	5. this.timer=null  
 		const/4 v3,0x0
 		sput-object v3,Lcom/aaa;-timer:Lcom/aaa/timer;
 	6. .local v0, args:Landroid/os/Message;
 		 const/4 v1, 0x12
 		 input v1, v0,Landroid/os/Message;-\>what:I
 		 此处args是Message的实例，args.what=18
+10. 函数调用：
+	1. 函数分为direct method和virtual method，简单说direct 即private函数，其余的public和protected均属于virtual函数，所以在调用函数时，有invoke-direct、invoke-virtual，另外以及invoke-static、invoke-super、invoke-interface等几种不同的指令，当然还有invoke-XXX/range的指令，这是指参数多余4个的时候调用的指令；
+	2. Invoke-static{v0},Ljava/lang/System;-\>loadLibrary(Ljava/lang/String;)V 其中{}中指定函数调用的参数值；
+		invoke-direct{p0},Landroid/app/TabActivity;-\>\<init\>()V =\> init()   
+		invoke-virtual{v0,v1},Lcom/cc;-\>Message(Ljava/lang/Object;)V  
+		invoke-direct/range{v0,…,v5},Lcom/pb/ui/PBContainerActivity;-h(Ljava/lang/CharSequence;Ljava/lang/String;Landroid/content/Intent;l)Z
+	3. 在Java代码中，调用函数和返回值可以使用一条语句完成，但是在smali中需要分开来完成，如果返回的非void，需要使用move-result（返回基本数据类型）和move-result-object（返回对象）指令：
+		const-string v0,”Eric”
+		invoke-static{0},Lcmd/pbi;-\>t(Ljava/lang/String;)Ljava/lang/String;
+		move-result-object v2 //v2保存的就是t方法返回的值
+	4. 代码理解：
+		Add-int/lit8 v0,v0,0x1  //将第二个v0寄存器中的值加上0x1的值，再放入第一个寄存器，实现自增长  
+		.locals 4  //本地寄存器4个，即v0,v1,v2,v3,v4
+		const/4 v2,0x1  //4字节常量 V2=1
+		const/16 v1,0x10 //16字节常量v1=16
+		.local v1,”length”:I  //赋值 length=v1 
+		xor-int/lit8 v1,v1,0x3b  //将第二个寄存器v1的值和0x3b进行异或运算，赋值给第一个v1寄存器中
+	5.  
