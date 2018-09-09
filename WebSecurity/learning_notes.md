@@ -94,4 +94,4 @@
 		const/16 v1,0x10 //16字节常量v1=16
 		.local v1,”length”:I  //赋值 length=v1 
 		xor-int/lit8 v1,v1,0x3b  //将第二个寄存器v1的值和0x3b进行异或运算，赋值给第一个v1寄存器中
-	5.  
+11. 
