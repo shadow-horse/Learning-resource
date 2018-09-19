@@ -15,11 +15,11 @@ Download: https://github.com/android-hacker/VirtualXposed
 	Download: https://developer.android.google.cn/ndk/downloads/  
 	下载后将其解压到相应目录下面，然后配置环境变量，路径中避免使用中文和空格，配置完成后,在CMD中执行ndk-build，执行成功则意味着环境配置成功。
 2. AndroidStudio Project中配置NDK	  
-	1. File -> Project Structure 中添加Android NDK location:  
-	 
-	2. 
+	File -> Project Structure 中添加Android NDK location:  
+	 <img src="https://github.com/shadow-horse/Learning-resource/blob/master/practice/media/ndk_201809201209.pngndk_201809201209.png" />  
+	
 3. 配置Xposed api
-
+   
 
 
 
