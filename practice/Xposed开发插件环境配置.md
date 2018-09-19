@@ -19,10 +19,15 @@ Download: https://github.com/android-hacker/VirtualXposed
 	 <img src="https://github.com/shadow-horse/Learning-resource/blob/master/practice/media/ndk_201809201209.png" />  
 	
 3. 配置Xposed api
+   在新建的Android工程中，需要导入Xposed api，即api-82-source.jar和api-82.jar放入libs中。  
+   Download: https://bintray.com/rovo89/de.robv.android.xposed/api  
+    <img src="https://github.com/shadow-horse/Learning-resource/blob/master/practice/media/xposed_api_import_201809201223.jpg" />  
+   在工程中导入Jar包时，网上有说将app\build.gradle中的dependencies选项：implementation换成provided，对此原因未验证，provided即将被compileOnly所代替，到时候直接使用compileOnly即可。  
+   <img src="https://github.com/shadow-horse/Learning-resource/blob/master/practice/media/xposed_api_impored_201009201229.png" />  
    
-
-
-
-
+4. 创建Android工程  
+	1. 如果需要
+5.    
+   
 参考链接：https://zhuanlan.zhihu.com/p/35003478  
 
