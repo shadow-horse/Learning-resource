@@ -55,9 +55,32 @@ Download: https://github.com/android-hacker/VirtualXposed
 			}
 	
 	6. 编译生成APK
-5.    
+
+### 3. VirtualXposed安装验证Demo
+
+1. 在手机上安装VirtualXposed，并点击打开VirtualXposed，界面如下
+	<img src="https://github.com/shadow-horse/Learning-resource/blob/master/practice/media/xposed_virtualxposed_201809241207.jpeg" />   
+	点击下方的圆点，可以在里面添加应用和管理模块，类似双开应用，直接将安装在系统的应用Copy过来。  
+2. 将上述步骤编译的APK，安装到手机	
+3. 然后将该应用安装到VirtualXposed中，然后在模块中间选择加载该插件，勾选插件后，需要在VirtualXposed设置中点击重启，步骤如下：  
+	<img src="https://github.com/shadow-horse/Learning-resource/blob/master/practice/media/xposed_virtualxposed_201809241220.png" />  
+	<img src="https://github.com/shadow-horse/Learning-resource/blob/master/practice/media/xposed_virtualxposed_201809241221.png" />  
+	<img src="https://github.com/shadow-horse/Learning-resource/blob/master/practice/media/xposed_virtualxposed_20180924122.png" />
+4. 在VirtualXposed中，使用不便之处在于，无法在VirtualXposed中进行程序的切换，只能切出来，再点击VirtualXposed进入，不过不影响使用。首先进入，打开Xposed installer，点击左侧菜单来，进入日志：   
+	<img src="https://github.com/shadow-horse/Learning-resource/blob/master/practice/media/xposed_virtualxposed_201809241233.png" />  
+   然后切换程序，在VirtualXposed中打开不同的APP，打开微信等不同程序。  
+   然后在进入Xposed installer中查看日志，可以点击日志页面右上角的重新加载，刷新日志，发现我们写的Xposed插件已经打印了加载App的packagename：  
+   <img src="https://github.com/shadow-horse/Learning-resource/blob/master/practice/media/xposed_virtualxposed_201809241234.jpeg" />  
+   	     
+### 4. 编写插件
+
+上述已经基本搭建好了Xposed插件开发和使用的环境，剩下的就是编写实用的插件，以方便在渗透测试APK时，能够方便的进行动态调试，找到关键的类代码，做修改返回值。  
+
+Inspeckage是一个APK Method Hook的插件，后面我们先介绍下这款优秀的插件，再编写自己实用的插件：）  
    
-参考链接：   
+
+
+该文章只是记录分享实际操作的过程，参考资料均来自网络，链接：   
 	https://zhuanlan.zhihu.com/p/35003478  
 	https://jayfeng.com/2017/05/17/Xposed%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5/  
 
