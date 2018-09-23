@@ -26,8 +26,38 @@ Download: https://github.com/android-hacker/VirtualXposed
    <img src="https://github.com/shadow-horse/Learning-resource/blob/master/practice/media/xposed_api_impored_201009201229.png" />  
    
 4. 创建Android工程  
-	1. 如果需要
+	1. 如果需要开发.so，则按需配置上述NDK的环境，创建Android工程时，选择include C++ support，否则只需要创建普通的Android Empty工程即可：  
+	<img src="https://github.com/shadow-horse/Learning-resource/blob/master/practice/media/xposed_android_project_20180923936.png" />
+	2. 按照上述2、3步骤配置NDK和导入以来的Jar包
+	3. 在AndroidManifest.xml中配置meta-data，使其能被识别加载为xposed的插件  
+	<img src="https://github.com/shadow-horse/Learning-resource/blob/master/practice/media/xposed_android_project_201809231125.png" />  
+	4. 创建Hook类，该类是Xposed的入口类，用于拦截加载的package，在com.snow.xposed.HookClass包路径下创建MainXposed类实现IXposedHookLoadPackage类接口（见步骤五），然后在src/main目录下创建assets目录，在该目录中创建xposed_init文件，写入上面创建的Xposed的入口类，如下：  
+	<img src="https://github.com/shadow-horse/Learning-resource/blob/master/practice/media/xposed_android_project_201809231144.png" />
+	5. 编写MainXposed类，实现对加载package的拦截，打印日志 
+	
+			/**
+		 	*  Xposed的入口类
+ 			*  2018.09.23
+ 			*/
+			package com.snow.xposed.HookClass;
+			
+			import de.robv.android.xposed.IXposedHookLoadPackage;
+			import de.robv.android.xposed.XposedBridge;
+			import de.robv.android.xposed.callbacks.XC_LoadPackage;
+			public class MainXposed implements IXposedHookLoadPackage{
+			
+			    public final static String TAG = "MainXposed";
+			    @Override
+			    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+			        //Log打印加载的App package
+			        XposedBridge.log(TAG+"|"+"LoadPackageName:"+lpparam.packageName);
+			    }
+			}
+	6. 编译生成APK
 5.    
    
-参考链接：https://zhuanlan.zhihu.com/p/35003478  
+参考链接：   
+	https://zhuanlan.zhihu.com/p/35003478  
+	https://jayfeng.com/2017/05/17/Xposed%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5/  
+
 
