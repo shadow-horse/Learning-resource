@@ -17,4 +17,7 @@ DNS的分级查询是从根域名开始，一次查询每一级的NS记录，知
 	从"顶级域名服务器"查到"次级域名服务器"的NS记录和A记录（IP地址）  
 	从"次级域名服务器"查出"主机名"的IP地址  
 
+<img src="https://github.com/shadow-horse/Learning-resource/blob/master/WebSecurity/internet_hijacking/dns_parse.png"/>     
+
+
 ### 2.
