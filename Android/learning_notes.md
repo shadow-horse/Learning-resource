@@ -90,4 +90,28 @@
 		const/16 v1,0x10 //16字节常量v1=16
 		.local v1,”length”:I  //赋值 length=v1 
 		xor-int/lit8 v1,v1,0x3b  //将第二个寄存器v1的值和0x3b进行异或运算，赋值给第一个v1寄存器中
-11. 
+
+
+
+
+## 2. APP渗透常用命令及方法
+
+### 1. 常用命令  
+
+1. 获取已安装应用的包名  
+	
+		adb shell pm list packages  
+2. 获取包名对应的APK路径
+ 
+ 		adb shell pm path com.vivo.sdkplugin 
+3. 把APK pull到本地  
+
+ 		adb pull /data/app/com.vivo.sdkplugin-zvXOuWJKeKVhhESsKWxOxg==/base.apk abc.apk
+4. aapt获取APK包的信息 
+ 
+ 		aapt dump badging apk_path  
+
+5. 获取应用的信息  
+
+ 		adb shell dumpsys package <package_name>  
+6.
