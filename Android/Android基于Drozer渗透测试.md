@@ -46,9 +46,9 @@
  		run app.activity.info -a com.mwr.example.sieve
 
 2. 启动activity信息：  
- 1. Activity通常就是一个单独的屏幕，可以显示一些控件也可以监听并处理用户的的事件最初响应；   
- 2. Activity之间通过Intent进行通信，最重要的部分：动作和动作对应的数据  
- 3. 越权访问问题  
+	1. Activity通常就是一个单独的屏幕，可以显示一些控件也可以监听并处理用户的的事件最初响应；   
+ 	2. Activity之间通过Intent进行通信，最重要的部分：动作和动作对应的数据  
+ 	3. 越权访问问题  
 
 			run app.activity.start –-component com.mwr.example.sieve com.mwr.example.sieve.PWList  
 
