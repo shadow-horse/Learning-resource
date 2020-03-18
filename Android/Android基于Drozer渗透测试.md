@@ -32,7 +32,7 @@
 ### 2. drozer使用  
 
 1. adb forward tcp:31415 tcp:31415  
-2. adb console connect  
+2. drozer console connect  
 3. run app.package.list 
 4. run app.package.list -f sieve 
 5. run app.package.info -a com.mwr.example.sieve  
