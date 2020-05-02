@@ -95,6 +95,7 @@ Dockerfile 是一个文本文件，其内包含了一条条的 指令(Instructio
  1. 注释和指令注释以井号开头，后面跟上信息  
  2. 指令以大写的指令名开头，后面跟上参数  
 
+
  	FROM：指定基础镜像，必须为第一个命令 
   		FROM <IMAGE>
   		FROM <IMAGE>:<TAG>
