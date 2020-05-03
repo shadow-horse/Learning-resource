@@ -121,6 +121,7 @@ Dockerfile 是一个文本文件，其内包含了一条条的 指令(Instructio
   		VOLUME /data
 	
  	ENV：设置环境变量，以便其它地方引用，规则和shell一致
+ 		ENV DEBIAN_FRONTEND=noninteractive  //设置非交互式
 
  	EXPOSE：指定于外界交互的端口，运行该镜像的容器使用的端口，可以是多个，EXPOSE只是声明端口，并不会自动打开，运行时需要-p指令完成端口映射
   		EXPOSR <PORT>
@@ -219,3 +220,167 @@ Dockerfile 是一个文本文件，其内包含了一条条的 指令(Instructio
 
 
 ## 3. Docker-Compose管理镜像
+
+### 1. Docker-compose简介
+
+我们知道通过Dockerfile模板文件可以快速的构建一个单独的容器，但是在实际应用中经常需要多个容器配合完成某项任务，例如Web项目，除了web服务容器本身外，往往还需要再加上数据库服务容器，甚至还包括负载均衡器等。   
+
+Compose恰好满足了这样的需求，它允许用户通过一个单独的docker-compose.yml模板文件来定义一组相关联的应用容器为一个项目。  
+
+Compose中有2个重要的概念：  
+	
+	1. 服务（services）：一个应用的容器，实际上可以包含若干个运行相同镜像的容器示例 
+	2. 项目（project）：由一组关联的应用容器组成一个完成的业务单元， compose默认管理对象是项目，通过子命令对项目中的一组容器进行便捷的生命管理
+
+ 
+### 2. docker-compose常用命令
+
+	docker-compose [-f=<arg>...] [options] [COMMAND] [ARGS...]
+	docker-compose help [COMMAND] 
+	
+对compose而言，大部分命令的对象既可以是项目本身，也可以指定为项目中的服务或容器，如果没有特别说明，命令的对象将是项目，意味着项目中的所有服务都会受到影响。  
+
+命令选项：  
+
+- -f, --file FILE指定使用的compose模板文件，默认docker-compose.yml  
+- -p, --project-name NAME指定项目名称，默认将所在目录作为项目名
+- --x-networking 使用Docker的可插拔网络后端特性  
+- --x-network-driver DRIVER指定网络后端的驱动，默认bridge
+- --version 输出更多调试信息
+- -v, --version打印版本退出
+
+1. build   
+
+		docker-compose build  //重新构建服务
+2. config
+	
+		docker-compose config  //验证文件格式是否正确
+3. down 
+
+		docker-compose down   //此命令将停止up命令所启动的容器，并移除网络
+4. exec 
+
+		docker-compose exec   //进入指定容器
+5. images
+	
+		docker-compose images  //列出compose文件中的镜像
+6. ps 
+
+		docker-compose ps    //列出项目中目前的所有容器
+7. pull
+
+		docker-compose pull  //拉去服务依赖的镜像
+		
+8. restart | start | stop
+
+		docker-compose restart //重启项目中的服务
+		docker-compose start  //启动已经存在的服务
+		docker-compose stop  //停止已经运行的服务
+		
+9. rm 
+
+		docker-compose rm -f   //删除停止状态的服务容器，优先通过docker-compose stop命令停止容器
+		
+10. run 
+
+		docker-compose run ubuntu ping docker.com  //在指定服务上执行一个命令
+11. up
+
+		docker-compose up //该命令强大，自动完成构建镜像，创建服务，启动服务，并关联相关容器一系列内容，默认启动都在前台，需要使用-d指定后台运行  
+		
+### 3. Compose模板文件
+模板文件是使用Compose的核心，涉及的指令关键字比较多，大部分指令根docker run相关参数的含义类似。  
+
+	version: '2'
+	services:
+  		#定义的服务
+  		#单个服务的名称
+  		db:    
+  			#使用的镜像                      
+    		image: mariadb:10.1   
+    		#设置镜像的环境变量，可通过dockerhub查询镜像的环境变量    
+    		environment:
+      			MYSQL_ROOT_PASSWORD: "root"
+      			MYSQL_DATABASE: "app"
+      			MYSQL_USER: "app"
+      			MYSQL_PASSWORD: "123123"
+    		#数据卷挂在的路径设置，支持设置宿主机路径或者数据卷名称，一级访问模式，以下为数据卷名称示例
+    		volumes:
+      			- db:/var/lib/mysql
+  	   	php:
+  	   		#指定构建Docker镜像
+    		build:
+      		context: ./services/php
+      		dockerfile: Dockerfile
+    		volumes:
+      			- ./app:/mnt/app
+  	  	web:
+    		image: nginx:1.11.1
+    		ports:
+      			- "8080:80"
+    		depends_on:
+      			- php
+    		volumes_from:
+      			- php
+    		volumes:
+      			- ./services/web/config:/etc/nginx/conf.d
+  		phpmyadmin:
+    		image: phpmyadmin/phpmyadmin
+    		ports:
+      			- "8081:80"
+    		environment:
+      			PMA_HOST: "db"
+      			PMA_USER: "root"
+      			PMA_PASSWORD: "root"
+	volumes:
+  		db:
+    		driver: local
+
+
+**volumes详解：**   
+Docker默认的数据读写发生在容器的存储层，当容器被删除时其上的数据将会丢失，应当尽量保证容器存储层不发生写操作。Volumes（数据卷）是可供一个或多个容器使用的位于宿主机上的特殊目录，拥有以下特性：  
+1. 数据卷可以在容器间共享和重用  
+2. 对数据卷的写操作不会有任何影响
+3. 数据卷会默认存在
+
+	1. docker volume ps  //查看数据卷 
+	2. docker volume inspect VOLUMENAME  //查看具体信息
+	
+### 4. DVWA环境搭建
+基础环境采用公共服务，如果配置在各个项目中，则会单独启动各个服务，浪费资源。  
+
+1. 搭建公共MySQL数据库：docker-compose.yml     
+	
+		version: '2'
+
+		services:
+  		#公共开放mysql数据库，供所有项目使用
+  		mysql:
+    		image: mariadb:10.1
+    		environment:
+      			MYSQL_ROOT_PASSWORD: "root!@#
+      			MYSQL_DATABASE: "mysql"
+      			MYSQL_USER: "mysql"
+      			MYSQL_PASSWORD: "mysqlpwd"
+    		ports:
+      			- "3306:3306"
+    		volumes:
+      			- db:/var/lib/mysql
+
+		volumes:
+  			db:
+    		driver: local
+
+
+2. 搭建公共Apache+php环境：docker-compose.yml
+	
+	
+	
+3. 
+
+
+	
+
+
+		
+
